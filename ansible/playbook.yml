@@ -2,6 +2,14 @@
   hosts: docker_hosts
   become: true
   tasks:
+
+    - name: Wait for cloud-init to finish
+      ansible.builtin.command:
+        cmd: cloud-init status --wait
+      register: cloud_init_result
+      changed_when: false
+      failed_when: false
+
     - name: Update apt package cache
       apt:
         update_cache: yes
@@ -27,6 +35,7 @@
       apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
         state: present
+        update_cache: true
 
     - name: Install Docker Engine and plugins
       apt:
