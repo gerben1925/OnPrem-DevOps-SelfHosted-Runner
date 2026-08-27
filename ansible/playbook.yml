@@ -6,6 +6,7 @@
       apt:
         update_cache: yes
         cache_valid_time: 3600
+        lock_timeout: 300
 
     - name: Install prerequisite packages
       apt:
@@ -15,6 +16,7 @@
           - gnupg
           - python3-pip
         state: present
+        lock_timeout: 300
 
     - name: Add Docker GPG key
       apt_key:
@@ -35,6 +37,7 @@
           - docker-buildx-plugin
           - docker-compose-plugin
         state: present
+        lock_timeout: 300
 
     - name: Ensure Docker service is running and enabled
       systemd:
